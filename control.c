@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   control.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: icelebi <icelebi@student.42.fr>            +#+  +:+       +#+        */
+/*   By: eerbek <eerbek@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/08/28 17:03:27 by icelebi           #+#    #+#             */
-/*   Updated: 2023/08/28 17:22:04 by icelebi          ###   ########.fr       */
+/*   Created: 2023/08/29 12:47:10 by eerbek            #+#    #+#             */
+/*   Updated: 2023/08/29 18:03:32 by eerbek           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ t_table *set_arg(char **arg, int ac)
         table->must_eat_count = ft_p_atoi(arg[5]);
     table->must_eat_count = -1;
     table->philo = malloc(sizeof(t_philo) * table->nop);
-    table->forks = malloc(sizeof(t_philo)* table->nop);
+    table->forks = malloc(sizeof(int)* table->nop);
     table->time = current_time();
     table->stop = 0;
     return table;
@@ -44,10 +44,7 @@ int control(int ac, char **av)
     if(ac == 5 || ac == 6)
     {
         if(num_cont(ac,av) == 1)
-        {
-            set_arg(av,ac);
             return 1;
-        }
         else
             return 0;
     }
