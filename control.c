@@ -6,68 +6,63 @@
 /*   By: eerbek <eerbek@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/29 12:47:10 by eerbek            #+#    #+#             */
-/*   Updated: 2023/08/29 18:03:32 by eerbek           ###   ########.fr       */
+/*   Updated: 2023/09/03 14:07:35 by eerbek           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 #include <sys/time.h>
+#include <stdio.h>
 
-t_table *set_arg(char **arg, int ac)
+static int	ft_check_args(void)
 {
-    t_table *table;
-    
-    table = malloc(sizeof(t_table));
-    if(!table)
-        return NULL;
-    table->nop = ft_p_atoi(arg[1]);
-    table->death_time = ft_p_atoi(arg[2]);
-    table->eat_time = ft_p_atoi(arg[3]);
-    table->sleep_time = ft_p_atoi(arg[4]);
-    if(ac == 6)
-        table->must_eat_count = ft_p_atoi(arg[5]);
-    table->must_eat_count = -1;
-    table->philo = malloc(sizeof(t_philo) * table->nop);
-    table->forks = malloc(sizeof(int)* table->nop);
-    table->time = current_time();
-    table->stop = 0;
-    return table;
+	printf(" ____________________________________________________ \n");
+	printf("|            Please enter 4 or 5 arguments           |\n");
+	printf("|____________________________________________________|\n");
+	printf("|             [1][Number of philosophers]            |\n");
+	printf("|             [2][Time to die]                       |\n");
+	printf("|             [3][Time to eat]                       |\n");
+	printf("|             [4][Time to sleep]                     |\n");
+	printf("|             [5][Number of meals]                   |\n");
+	printf("|____________________________________________________|\n");
+	return (0);
 }
 
-void arg_check()
+static int	input_ac_control(int ac, char **av)
 {
-    printf("eksik veya fazla arguman girildi,incorrect");
+	register int	i;
+
+	i = 1;
+	if (ac <= 4 || ac >= 7)
+		return (ft_check_args());
+	while (i < ac)
+	{
+		if (is_digit(av[i]) == 0)
+			return (0);
+		i++;
+	}
+	return (1);
 }
 
-int control(int ac, char **av)
+static int	ft_check_max(char **av)
 {
-    if(ac == 5 || ac == 6)
-    {
-        if(num_cont(ac,av) == 1)
-            return 1;
-        else
-            return 0;
-    }
-    else
-        return 0;
+	register int	i;
 
+	i = 1;
+	while (av[i])
+	{
+		if (unsigned_atoi(av[i]) <= 0)
+			return (0);
+		i++;
+	}
+	return (1);
 }
 
-int num_cont(int ac, char **av)
+int	ft_control(int ac, char **av)
 {
-   int i = 1;
-   int j;
-    while(i < ac)
-    {
-        j = 0;
-        while(av[i][j])
-        {
-            if(av[i][j] <= 57 && av[i][j] >= 48)
-                j++;
-            else
-                return 0;
-        }
-        i++;
-    }
-    return 1;
+	if (input_ac_control(ac, av) == 0)
+		return (ft_err("Incorret argument!\n"));
+	if (ft_check_max(av) == 0)
+		return (ft_err("Invalid argument!\n"));
+	return (1);
 }
